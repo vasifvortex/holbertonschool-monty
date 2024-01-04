@@ -11,7 +11,8 @@
 void execution(stack_t **stack, int line_number)
 {
 	int i = 0;
-	instruction_t instructions[] = {{"push", push}, {"pall", pall}, {NULL, NULL}};
+	instruction_t instructions[] = {{"push", push}, {"pall", pall},
+	{"pint", pint}, {NULL, NULL}};
 	char **t_a = globals.token_arr;
 
 	while (instructions[i].opcode != NULL)
