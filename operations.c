@@ -2,14 +2,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+/**
+ * check_and_convert_int - checks string if it is int, converts it.
+ * @str: string.
+ * @line_number: line number in the file.
+ * Return: number or 0.
+ */
 int check_and_convert_int(char *str, unsigned int line_number)
 {
 	int i = 0, flag = 0;
 
 	while (str && str[i] != '\0')
 	{
-		if((str[i] >= 47 && str[i] <= 58) || (i == 0 && str[i] == '-'))
+		if ((str[i] >= 47 && str[i] <= 58) || (i == 0 && str[i] == '-'))
 			flag = 1;
 		else
 		{
@@ -21,22 +26,28 @@ int check_and_convert_int(char *str, unsigned int line_number)
 	if (flag == 0)
 	{
 		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_number);
-		status = 1;
+		globals.status = 1;
 		return (0);
 	}
 	else
 		return (atoi(str));
 }
+/**
+ * push - pushes integers into the stack.
+ * @stack: stack.
+ * @line_number: line number in the file.
+ */
 void push(stack_t **stack, unsigned int line_number)
 {
-	int num = check_and_convert_int(token_arr[1], line_number); /* global variable */
+	int num = check_and_convert_int(globals.token_arr[1], line_number);
 	stack_t *new_node = malloc(sizeof(stack_t));
+
 	if (new_node == NULL)
 	{
 		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		status = 1;
+		globals.status = 1;
 	}
-	if (status == 1)
+	if (globals.status == 1)
 	{
 		free(new_node);
 		return;
@@ -48,18 +59,26 @@ void push(stack_t **stack, unsigned int line_number)
 		(*stack)->prev = new_node;
 	*stack = new_node;
 }
-
+/**
+ * pall - prints everything in the stack, starting from top.
+ * @stack: stack.
+ * @line_number: line number in the file.
+ */
 void pall(stack_t **stack, unsigned int line_number)
 {
 	(void)line_number;
 	stack_t *temp = *stack;
+
 	while (temp != NULL)
 	{
 		printf("%d\n", temp->n);
 		temp = temp->next;
 	}
 }
-
+/**
+ * free_stack - frees stack.
+ * @stack: stack.
+ */
 void free_stack(stack_t *stack)
 {
 	stack_t *temp = NULL;
