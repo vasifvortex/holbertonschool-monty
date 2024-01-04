@@ -9,7 +9,7 @@ int check_and_convert_int(char *str, unsigned int line_number)
 
 	while (str && str[i] != '\0')
 	{
-		if(str[i] >= '0' && str[i] <= '9')
+		if((str[i] >= 47 && str[i] <= 58) || (i == 0 && str[i] == '-'))
 			flag = 1;
 		else
 		{
