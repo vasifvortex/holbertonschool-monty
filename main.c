@@ -18,7 +18,8 @@ int main(int argc, char *argv[])
 	if (argc != 2)
 	{
 		dprintf(STDERR_FILENO, "USAGE: monty file\n");
-		status = 1; }
+		status = 1;
+	}
 	monty = fopen(argv[1], "r");
 	if (monty == NULL)
 	{
@@ -50,5 +51,7 @@ int main(int argc, char *argv[])
 	}
 	fclose(monty);
 	free_stack(stack);
-	return (status);
+	if (status = 1)
+		exit(EXIT_FAILURE);
+	return (0);
 }

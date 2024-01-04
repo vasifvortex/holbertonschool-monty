@@ -23,7 +23,8 @@ int check_and_convert_int(char *str, unsigned int line_number)
 		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_number);
 		status = 1;
 	}
-	return (atoi(str));
+	else
+		return (atoi(str));
 }
 void push(stack_t **stack, unsigned int line_number)
 {
