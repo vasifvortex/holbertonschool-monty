@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 	}
 	fclose(monty);
 	free_stack(stack);
-	if (status = 1)
+	if (status == 1)
 		exit(EXIT_FAILURE);
 	return (0);
 }
