@@ -91,17 +91,20 @@ void pint(stack_t **stack, unsigned int line_number)
 	globals.status = 1;
 }
 /**
- * free_stack - frees stack.
+ * pop - removes top element of stack.
  * @stack: stack.
+ * @line_number: line number in the file.
  */
-void free_stack(stack_t *stack)
+void pop(stack_t **stack, unsigned int line_number)
 {
-	stack_t *temp = NULL;
+	stack_t *temp = *stack;
 
-	while (stack)
+	if (stack && *stack)
 	{
-		temp = stack->next;
-		free(stack);
-		stack = temp;
+		*stack = (*stack)->next;
+		free(temp);
+		return;
 	}
+	dprintf(STDERR_FILENO, "L%u: can't pop an empty stack\n", line_number);
+	globals.status = 1;
 }
