@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	monty = fopen(argv[1], "r");
 	if (monty == NULL)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't open file %s", argv[1]);
+		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv[1]);
 		status = 1;
 	}
 	while (fgets(buf, 1024, monty) != NULL && status == 0)
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 		}
 		if (instructions[i].opcode == NULL)
 		{
-			dprintf(STDERR_FILENO, "L%d: unknown instruction %s", line_number, token_arr[0]);
+			dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", line_number, token_arr[0]);
 			status = 1;
 		}
 		i = 0;
