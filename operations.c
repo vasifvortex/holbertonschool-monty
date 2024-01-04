@@ -21,7 +21,7 @@ int check_and_convert_int(char *str, unsigned int line_number)
 	if (flag == 0)
 	{
 		dprintf(STDERR_FILENO, "L%u: usage: push integer\n", line_number);
-		exit(EXIT_FAILURE);
+		status = 1;
 	}
 	return (atoi(str));
 }
@@ -32,7 +32,8 @@ void push(stack_t **stack, unsigned int line_number)
 	if (new_node == NULL)
 	{
 		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		exit(EXIT_FAILURE); }
+		status = 1;
+	}
 	new_node->n = num;
 	new_node->prev = NULL;
 	new_node->next = *stack;
@@ -43,10 +44,23 @@ void push(stack_t **stack, unsigned int line_number)
 
 void pall(stack_t **stack, unsigned int line_number)
 {
+	(void)line_number;
 	stack_t *temp = *stack;
 	while (temp != NULL)
 	{
 		printf("%d\n", temp->n);
 		temp = temp->next;
+	}
+}
+
+void free_stack(stack_t *stack)
+{
+	stack_t *temp = NULL;
+
+	while (stack)
+	{
+		temp = stack->next;
+		free(stack);
+		stack = temp;
 	}
 }

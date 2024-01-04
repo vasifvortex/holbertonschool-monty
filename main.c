@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 char **token_arr = NULL;
+int status = 0;
 
 int main(int argc, char *argv[])
 {
@@ -17,9 +18,14 @@ int main(int argc, char *argv[])
 	if (argc != 2)
 	{
 		dprintf(STDERR_FILENO, "USAGE: monty file\n");
-		exit(EXIT_FAILURE); }
+		status = 1; }
 	monty = fopen(argv[1], "r");
-	while (fgets(buf, 1024, monty) != NULL)
+	if (monty == NULL)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't open file %s", argv[1]);
+		status = 1;
+	}
+	while (fgets(buf, 1024, monty) != NULL && status == 0)
 	{
 		token_arr = token_parse(buf, " $\n\t");
 		while (instructions[i].opcode != NULL)
@@ -33,10 +39,16 @@ int main(int argc, char *argv[])
 			}
 			i++;
 		}
+		if (instructions[i].opcode == NULL)
+		{
+			dprintf(STDERR_FILENO, "L%d: unknown instruction %s", line_number, token_arr[0]);
+			status = 1;
+		}
 		i = 0;
 		free(token_arr);
 		line_number++;
 	}
 	fclose(monty);
-	return (0);
+	free_stack(stack);
+	return (status);
 }
