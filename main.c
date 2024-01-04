@@ -18,13 +18,13 @@ int main(int argc, char *argv[])
 	if (argc != 2)
 	{
 		dprintf(STDERR_FILENO, "USAGE: monty file\n");
-		status = 1;
+		exit(EXIT_FAILURE);
 	}
 	monty = fopen(argv[1], "r");
 	if (monty == NULL)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv[1]);
-		status = 1;
+		exit(EXIT_FAILURE);
 	}
 	while (fgets(buf, 1024, monty) != NULL && status == 0)
 	{
@@ -53,5 +53,5 @@ int main(int argc, char *argv[])
 	free_stack(stack);
 	if (status == 1)
 		exit(EXIT_FAILURE);
-	return (0);
+	return (EXIT_SUCCESS);
 }
